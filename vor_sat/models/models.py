@@ -90,6 +90,8 @@ class VorSatSolicitud(models.Model):
         # Validar cod_estatus si tiene error
         if self.cod_estatus == '5000':
             self.estatus = '3'
+        else:
+            raise ValidationError(self.mensaje)
     
     def solicitar(self):
         self.autenticar()
