@@ -1,0 +1,189 @@
+<odoo>
+    <data>
+
+        <!-- Solicitud  -->
+        <record id="vor_sat_solicitud_tree" model="ir.ui.view">
+            <field name="name">vor_sat.solicitud.tree</field>
+            <field name="model">vorsat.solicitud</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitudes">
+                    <field name="id"/>
+                    <field name="fecha_inicial"/>
+                    <field name="fecha_final"/>
+                    <field name="rfc_emisor"/>
+                    <field name="rfc_receptor"/>
+                    <field name="estatus"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="vor_sat_solicitud_form" model="ir.ui.view">
+            <field name="name">vor_sat.solicitud.form</field>
+            <field name="model">vorsat.solicitud</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de descarga">
+                <header>
+                    <button  name="regresar" string="Atrás" type="object" attrs="{'invisible':[('estatus','=','1')]}"/>
+                    <button class="oe_highlight" name="solicitar" string="Solicitar" type="object" attrs="{'invisible':[('estatus','not in',['1','2'])]}"/>
+                    <button class="oe_highlight" name="verificar" string="Verificar" type="object" attrs="{'invisible':[('estatus','!=','3')]}"/>
+                    <button class="oe_highlight" name="descargar" string="Descargar" type="object" attrs="{'invisible':[('estatus','!=','4')]}"/>
+                    <field name="estatus" widget="statusbar"/>
+                </header>
+                    <sheet>
+                        <group>
+                            <group string="Solicitud" >
+                                <field name="rfc_solicitante" attrs="{'readonly':[('estatus','!=','1')]}"/>
+                                <field name="fecha_inicial" attrs="{'readonly':[('estatus','!=','1')]}"/>
+                                <field name="fecha_final" attrs="{'readonly':[('estatus','!=','1')]}"/>
+                                <field name="rfc_emisor" attrs="{'readonly':[('estatus','!=','1')]}"/>
+                                <field name="rfc_receptor" attrs="{'readonly':[('estatus','!=','1')]}"/>
+                            </group>
+                            <group attrs="{'invisible':[('estatus','=','1')]}">
+                                <field name="id_solicitud" readonly="1"/>
+                                <field name="cod_estatus" readonly="1"/>
+                                <field name="mensaje" readonly="1"/>
+                                <field name="estado_solicitud" readonly="1" attrs="{'invisible':[('estatus','in',['1','2'])]}"/>
+                                <field name="codigo_estado_solicitud" readonly="1" attrs="{'invisible':[('estatus','in',['1','2'])]}"/>
+                                <field name="numero_cfdis" readonly="1" attrs="{'invisible':[('estatus','in',['1','2'])]}"/>
+                                <field name="paquetes" readonly="1" attrs="{'invisible':[('estatus','in',['1','2'])]}"/>
+                            </group>
+                            <group attrs="{'invisible':[('estatus','!=','5')]}">
+                                <field name="cfdis"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="vor_sat_paquete_form" model="ir.ui.view">
+            <field name="name">vor_sat.paquete.form</field>
+            <field name="model">vorsat.paquete</field>
+            <field name="arch" type="xml">
+                <form string="Paquete">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="id_paquete"/>
+                                <field name="solicitud"/>
+                                <field name="archivo"/>
+                                <!-- <field name="cfdis"/> -->
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="vor_sat_concepto_tree" model="ir.ui.view">
+            <field name="name">vor_sat.concepto.tree</field>
+            <field name="model">vorsat.concepto</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom"  string="Conceptos">
+                    <field name="producto"/>
+                    <field name="clave_unidad"/>
+                    <field name="clave_prod_serv"/>
+                    <!-- <field name="no_identificacion"/> -->
+                    <field name="cantidad"/>
+                    <!-- <field name="unidad"/> -->
+                    <!-- <field name="descripcion"/> -->
+                    <field name="valor_unitario"/>
+                    <field name="importe"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="vor_sat_cfdi_tree" model="ir.ui.view">
+            <field name="name">vorsat.cfdi.tree</field>
+            <field name="model">vorsat.cfdi</field>
+            <field name="arch" type="xml">
+                <tree string="Facturas">
+                    <field name="emisor_rfc"/>
+                    <field name="emisor_nombre"/>
+                    <field name="tfd_uuid"/>
+                    <field name="fecha"/>
+                    <field name="total"/>
+                    <field name="estatus" invisible='1'/>
+                    <field name="estatus"/>
+                    <button name="procesar" class="oe_stat_button" string="Procesar" type="object"  icon="fa-check-square"  attrs="{'invisible':[('estatus','!=','2')]}"/>
+                    <button name="descartar" class="oe_stat_button" string="Omitir" type="object" icon="fa-window-close" attrs="{'invisible':['|',('estatus','=','3'),('estatus','=','d')]}"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="vor_sat_cfdi_pivot" model="ir.ui.view">
+                <field name="name">vorsat.cfdi.pivot</field>
+                <field name="model">vorsat.cfdi</field>
+                <field name="arch" type="xml">
+                    <pivot string="Facturas Pivot">
+                        <field name="total" type="measure"/>
+                        <field name="fecha" interval="day" type="row"/>
+                        <field name="emisor_nombre" type="row"/>
+                        <field name="estatus" type="col"/> 
+                    </pivot>
+                </field>
+        </record>
+        <record id="vor_sat_cfdi_form" model="ir.ui.view">
+            <field name="name">vor_sat.cfdi.form</field>
+            <field name="model">vorsat.cfdi</field>
+            <field name="arch" type="xml">
+                <form string="Factura">
+                    <header>
+                        <button class="oe_highlight" name="procesar" string="Exportar" type="object" attrs="{'invisible':[('estatus','!=','2')]}"/>
+                        <button name="descartar" class="oe_stat_button" string="Descartar" type="object" attrs="{'invisible':['|',('estatus','=','3'),('estatus','=','d')]}"/>
+
+                        <!-- <field name="estatus" invisible='1'/> -->
+                        <field name="estatus" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Comprobante">
+                                <field name="folio"/>
+                                <field name="fecha"/>
+                                <field name="sello"/>
+                                <field name="forma_pago"/>
+                                <field name="no_certificado"/>
+                                <field name="certificado"/>
+                                <field name="sub_total"/>
+                                <field name="moneda"/>
+                                <field name="total"/>
+                                <field name="tipo_de_comprobante"/>
+                                <field name="metodo_pago"/>
+                                <field name="lugar_expedicion"/>
+                                <field name="exportada"/>
+                            </group>
+                            <group string="Emisor">
+                                <field name="emisor"/>
+                                <field name="emisor_rfc"/>
+                                <field name="emisor_nombre"/>
+                                <field name="emisor_regimen_fiscal"/>
+                            </group>
+                            <group string="Receptor">
+                                <field name="receptor"/>
+                                <field name="receptor_rfc"/>
+                                <field name="receptor_nombre"/>
+                                <field name="receptor_uso_CFDI"/>
+                            </group>
+                            <group string="Conceptos">
+                                <field name="conceptos"/>
+                            </group>
+                            <group string="Timbre Fiscal Digital">
+                                <field name="tfd_version"/>
+                                <field name="tfd_uuid"/>
+                                <field name="tfd_fecha_timbrado"/>
+                                <field name="tfd_sello_cfd"/>
+                                <field name="tfd_no_certificado_sat"/>
+                                <field name="tfd_sello_sat"/>
+                                <field name="tfd_rfc_prov_certif"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+
+    </data>
+</odoo>

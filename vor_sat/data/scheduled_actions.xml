@@ -1,0 +1,44 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_cron_solicitud_solicitar_descarga" model="ir.cron">
+            <field name="name">Solicitar descarga</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall">2020-01-03 10:00:00</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field name="model_id" ref="vor_sat.model_vorsat_solicitud"></field>
+            <field name="state">code</field>
+            <field name="code">
+solicitud = env['vorsat.solicitud'].create({})
+solicitud.autenticar()
+solicitud.solicitar_descarga()
+            </field>
+        </record>
+
+        <record id="ir_cron_solicitud_verificar_descargar" model="ir.cron">
+            <field name="name">Solicitud verificar y descargar</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall">2020-01-03 10:10:00</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field name="model_id" ref="vor_sat.model_vorsat_solicitud"></field>
+            <field name="state">code</field>
+            <field name="code">
+solicitudes = env['vorsat.solicitud'].search([('estatus','=','3')])
+token = env['vorsat.solicitud'].get_token()
+for solicitud in solicitudes:
+    solicitud.write({'token':token})
+    solicitud.verificar_solicitud()
+    solicitud.descargar_paquetes()
+            </field>
+        </record>
+
+    </data>
+</odoo>

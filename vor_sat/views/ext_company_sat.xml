@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="view_company_sat" model="ir.ui.view">
+
+            <field name="name">view.company.sat</field>
+
+            <field name="model">res.company</field>
+
+            <field name="type">form</field>
+
+            <field name="inherit_id" ref="base.view_company_form" />
+
+            <field name="arch" type="xml">
+
+                <notebook colspan="4" position="inside">
+
+                    <page string="SAT">
+
+                        <group>
+
+                            <field name="rfc"/>
+                            <field name="fiel_key" filename="fiel_key_filename"/>
+                            <field name="fiel_key_filename" invisible="1"/>
+                            <field name="fiel_cer" filename="fiel_cer_filename"/>
+                            <field name="fiel_cer_filename" invisible="1"/>
+                            <field name="fiel_password" password="True"/>
+
+
+                        </group>
+
+                    </page>
+
+                </notebook>
+
+            </field>
+
+        </record>
+
+
+
+    </data>
+
+
+</odoo>

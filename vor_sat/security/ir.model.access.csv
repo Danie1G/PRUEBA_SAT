@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vorsat_solicitud_account_manager,vorsat.solicitud,vor_sat.model_vorsat_solicitud,account.group_account_manager,1,1,1,1
+access_vorsat_paquete_account_manager,vorsat.paquete,vor_sat.model_vorsat_paquete,account.group_account_manager,1,1,1,1
+access_vorsat_cfdi_account_manager,vorsat.cfdi,vor_sat.model_vorsat_cfdi,account.group_account_manager,1,1,1,1
+access_vorsat_concepto_account_manager,vorsat.concepto,vor_sat.model_vorsat_concepto,account.group_account_manager,1,1,1,1
+access_vorsat_solicitud_account_user,vorsat.solicitud,vor_sat.model_vorsat_solicitud,account.group_account_user,1,0,0,0
+access_vorsat_paquete_account_user,vorsat.paquete,vor_sat.model_vorsat_paquete,account.group_account_user,1,0,0,0
+access_vorsat_cfdi_account_user,vorsat.cfdi,vor_sat.model_vorsat_cfdi,account.group_account_user,1,0,0,0
+access_vorsat_concepto_account_user,vorsat.concepto,vor_sat.model_vorsat_concepto,account.group_account_user,1,0,0,0

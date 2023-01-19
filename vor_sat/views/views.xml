@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+
+    <record id="vor_sat_action_solicitud" model="ir.actions.act_window">
+      <field name="name">Solicitud Descarga</field>
+      <field name="res_model">vorsat.solicitud</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="vor_sat_action_cfdi" model="ir.actions.act_window">
+      <field name="name">Facturas</field>
+      <field name="res_model">vorsat.cfdi</field>
+      <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+
+    <!-- Menu -->
+
+    <menuitem id="vorsat_top" name="Facturas SAT" web_icon="vor_sat,static/description/icon.png" sequence="1"/>
+
+    <menuitem id="vorinv_cfdi_top" action="vor_sat_action_cfdi" name="Facturas" parent='vorsat_top' sequence="10"/>
+    <menuitem id="vorinv_solicitud_top" action="vor_sat_action_solicitud" name="Solicitudes" parent='vorsat_top' sequence="20"/>
+
+  </data>
+</odoo>
